@@ -235,6 +235,10 @@ class Graph {
         let visited = {
             // [string] : [boolean]
         };
+        // stores { [destination-vertex] => [previous-vertex] }
+        let previous = {
+            // [string] : [string]
+        };
         // stores minimum distance from source to distination vertex
         // stores { [destination-vertex] => [cost] }
         let distance = {
@@ -251,13 +255,14 @@ class Graph {
                     // relax neighboring vertices (ie. update distance table with minimum distance)
                     if (distance[edge.vertex.val] === undefined || distance[edge.vertex.val] > distance[currVert.val] + edge.cost) {
                         distance[edge.vertex.val] = distance[currVert.val] + edge.cost;
+                        previous[edge.vertex.val] = currVert.val;
                     }
                     // add to priority queue
                     priorityQ.push(edge.vertex);
                 }
             }
         }
-        return distance;
+        return [distance, previous];
     }
 }
 function main(connections) {
